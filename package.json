@@ -1,0 +1,31 @@
+{
+  "name": "list-npm-modules",
+  "version": "1.0.1",
+  "description": "List the package names for every module in the npm registry",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sqren/list-npm-modules.git"
+  },
+  "keywords": [
+    "npm",
+    "list",
+    "modules",
+    "cache",
+    "registry",
+    "api"
+  ],
+  "author": "Søren Louv-Jansen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sqren/list-npm-modules/issues"
+  },
+  "homepage": "https://github.com/sqren/list-npm-modules#readme",
+  "dependencies": {
+    "lodash.defaults": "^3.1.2",
+    "lodash.isfunction": "^3.0.6"
+  }
+}
