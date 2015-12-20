@@ -1,5 +1,5 @@
-var listNpmModules = require('./index');
+var NpmModules = require('./index');
+var npmModules = new NpmModules();
 
-listNpmModules(function (result) {
-	console.log(result.length);
-});
+var results = npmModules.get();
+console.log(results.length);

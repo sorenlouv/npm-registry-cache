@@ -1,33 +1,28 @@
 var CACHE_FILENAME = './cache.json';
-var _isFunction = require('lodash.isfunction');
-var _defaults = require('lodash.defaults');
 var fs = require('fs');
 var request = require('request');
-var cacheFileContent = getCacheFileContent();
 
-function listNpmModules(options, callback) {
-    if(_isFunction(options)) {
-        callback = options;
-        options = {};
+function npmModules(ttl){
+    ttl = ttl || 1000 * 3600 * 24;
+    this.cacheFileContent = this._readCacheFile();
+    var isStale = this._isStale(this.cacheFileContent.timestamp, ttl);
+    if(isStale) {
+        this._update();
     }
 
-    options = _defaults(options, {
-        forceUpdate: false,
-        validity: 24 * 3600 * 1000
-    });
-
-    var isStale = listNpmModules._isStale(cacheFileContent.timestamp, options.validity);
-    if(!options.forceUpdate && !isStale) {
-        callback(cacheFileContent.keys);
-        return;
+    if(ttl > 0) {
+        setInterval(this._update, ttl);
     }
+}
 
+npmModules.prototype._update = function () {
+    var _this = this;
     var requestOptions = {
         url: 'http://registry.npmjs.org/-/all',
         json: true,
         gzip: true,
         headers: {
-            'If-None-Match': cacheFileContent.etag
+            'If-None-Match': this.cacheFileContent.etag
         }
     };
 
@@ -41,12 +36,10 @@ function listNpmModules(options, callback) {
             case 200:
                 keys = Object.keys(responseBody);
                 etag = res.headers.etag;
-                updateCache(keys, etag);
-                callback(keys);
+                _this._persistCache(keys, etag);
                 break;
             case 304:
-                updateCacheTimestamp();
-                callback(cacheFileContent.keys);
+                _this._persistCacheTimestamp();
                 break;
             default:
                 console.error('Unexpected status code', res.statusCode);
@@ -54,13 +47,27 @@ function listNpmModules(options, callback) {
     }
 
     request.get(requestOptions, requestHandler);
-}
+};
 
-function updateCacheTimestamp() {
-    updateCache(cacheFileContent.keys, cacheFileContent.etag);
-}
+npmModules.prototype.get = function() {
+    return this.cacheFileContent.keys;
+};
 
-function updateCache(keys, etag) {
+npmModules.prototype.forceUpdate = function() {
+    return this._update();
+};
+
+npmModules.prototype._isStale = function (cacheTimestamp, validity) {
+    var expiryDate = (cacheTimestamp || 0) + validity;
+    var isStale = Date.now() > expiryDate;
+    return isStale;
+};
+
+npmModules.prototype._persistCacheTimestamp = function() {
+    this._persistCache(this.cacheFileContent.keys, this.cacheFileContent.etag);
+};
+
+npmModules.prototype._persistCache = function(keys, etag) {
     var filename = CACHE_FILENAME;
     var fileContent = {
         timestamp: Date.now(),
@@ -73,27 +80,17 @@ function updateCache(keys, etag) {
             return;
         }
 
-        cacheFileContent = fileContent;
+        this.cacheFileContent = fileContent;
     });
-}
+};
 
-function getCacheFileContent() {
+npmModules.prototype._readCacheFile = function() {
     try {
         return JSON.parse(fs.readFileSync(CACHE_FILENAME, 'utf8'));
     } catch (e) {
         return {};
     }
-}
-
-listNpmModules._isStale = function (cacheTimestamp, validity) {
-    var expiryDate = (cacheTimestamp || 0) + validity;
-    var isStale = Date.now() > expiryDate;
-    return isStale;
 };
 
-listNpmModules._setCache = function (cache) {
-    cacheFileContent = cache;
-};
-
-module.exports = listNpmModules;
+module.exports = npmModules;
 

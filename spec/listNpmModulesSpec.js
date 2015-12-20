@@ -1,17 +1,91 @@
 var fs = require('fs');
 var request = require('request');
-var listNpmModules = require('../index');
-console.info = function() {};
+var _ = require('lodash');
+var NpmModules = require('../index');
 
-describe('When cache file does exist', function () {
-	var result;
-
+describe('when cache is stale', function () {
 	beforeEach(function () {
-		listNpmModules._setCache({});
+		spyOn(NpmModules.prototype, '_isStale').and.returnValue(true);
+		spyOn(NpmModules.prototype, '_update');
+		jasmine.clock().install();
+		var npmModules = new NpmModules(500);
+	});
+
+	afterEach(function() {
+		jasmine.clock().uninstall();
+	});
+
+	it('should call _update', function () {
+		expect(NpmModules.prototype._update).toHaveBeenCalled();
+	});
+
+	it('should update cache when it expires', function () {
+		jasmine.clock().tick(1001);
+		expect(NpmModules.prototype._update.calls.count()).toBe(3);
+	});
+});
+
+describe('when cache is not stale', function () {
+	beforeEach(function () {
+		spyOn(NpmModules.prototype, '_isStale').and.returnValue(false);
+		spyOn(NpmModules.prototype, '_update');
+		jasmine.clock().install();
+		var npmModules = new NpmModules(500);
+	});
+
+	afterEach(function() {
+		jasmine.clock().uninstall();
+	});
+
+	it('should not call _update', function () {
+		expect(NpmModules.prototype._update).not.toHaveBeenCalled();
+	});
+
+	it('should update cache when it expires', function () {
+		jasmine.clock().tick(1001);
+		expect(NpmModules.prototype._update.calls.count()).toBe(2);
+	});
+});
+
+describe('When cache is stale and "this._update" is called', function () {
+	var cacheFileContent;
+	beforeEach(function () {
+		cacheFileContent = {
+			etag: 'myEtag',
+			timestamp: 'myTimestamp',
+			keys: ['a', 'b', 'c']
+		};
+		spyOn(NpmModules.prototype, '_readCacheFile').and.returnValue(cacheFileContent);
+		spyOn(NpmModules.prototype, '_isStale').and.returnValue(true);
+		spyOn(fs, 'writeFile');
+	});
+
+	describe('and registry returns 304', function () {
+		beforeEach(function () {
+			spyOn(request, 'get').and.callFake(function (options, handler) {
+				var err;
+				var res = {
+					statusCode: 304
+				};
+				var body = null;
+				handler(err, res, body);
+			});
+
+			new NpmModules();
+		});
+
+		it('should update timestamp in cache file', function () {
+			var fileContent = fs.writeFile.calls.argsFor(0)[1];
+			expect(JSON.parse(fileContent)).toEqual({
+				timestamp: jasmine.any(Number),
+				etag: cacheFileContent.etag,
+				keys: cacheFileContent.keys
+			});
+		});
 	});
 
 	describe('and registry returns 200', function () {
-		beforeEach(function (done) {
+		beforeEach(function () {
 			spyOn(request, 'get').and.callFake(function (options, handler) {
 				var err;
 				var res = {
@@ -24,12 +98,7 @@ describe('When cache file does exist', function () {
 				handler(err, res, body);
 			});
 
-			spyOn(fs, 'writeFile');
-
-			listNpmModules(function (_result) {
-				result = _result;
-				done();
-			});
+			new NpmModules();
 		});
 
 		it('should download a fresh list', function () {
@@ -54,76 +123,23 @@ describe('When cache file does exist', function () {
 				});
 			}
 		});
-
-		it('should return results from response', function () {
-			expect(result).toEqual([ 'a', 'b', 'c' ]);
-		});
 	});
 });
 
-describe('when cache file exists', function () {
-	var result, npmKeysCache;
+describe('when get is called', function () {
+	var result, cacheFileContent;
 
 	beforeEach(function () {
-		npmKeysCache = {
+		cacheFileContent = {
 			etag: 'myEtag',
 			timestamp: 'myTimestamp',
 			keys: ['a', 'b', 'c']
 		};
-		listNpmModules._setCache(npmKeysCache);
+		spyOn(NpmModules.prototype, '_readCacheFile').and.returnValue(cacheFileContent);
 	});
 
-	describe('and cache is stale', function () {
-		beforeEach(function () {
-			spyOn(listNpmModules, '_isStale').and.returnValue(true);
-		});
-
-		describe('and registry returns 304', function () {
-			beforeEach(function (done) {
-				spyOn(request, 'get').and.callFake(function (options, handler) {
-					var err;
-					var res = {
-						statusCode: 304
-					};
-					var body = null;
-					handler(err, res, body);
-				});
-
-				spyOn(fs, 'writeFile');
-
-				listNpmModules(function (_result) {
-					result = _result;
-					done();
-				});
-			});
-
-			it('should update timestamp in cache file', function () {
-				var fileContent = fs.writeFile.calls.argsFor(0)[1];
-				expect(JSON.parse(fileContent)).toEqual({
-					timestamp: jasmine.any(Number),
-					etag: npmKeysCache.etag,
-					keys: npmKeysCache.keys
-				});
-			});
-			it('should return results from cache', function () {
-				expect(result).toEqual(npmKeysCache.keys);
-			});
-		});
-	});
-
-	describe('and cache is not stale', function () {
-		var result;
-		beforeEach(function (done) {
-			spyOn(listNpmModules, '_isStale').and.returnValue(false);
-
-			listNpmModules(function (_result) {
-				result = _result;
-				done();
-			});
-		});
-
-		it('should return results from cache', function () {
-			expect(result).toEqual(npmKeysCache.keys);
-		});
+	it('should return results', function () {
+		var npmModules = new NpmModules();
+		expect(npmModules.get()).toEqual(cacheFileContent.keys);
 	});
 });
