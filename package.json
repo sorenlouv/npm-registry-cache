@@ -1,10 +1,11 @@
 {
   "name": "list-npm-modules",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "List the package names for every module in the npm registry",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node spec/jasmine-runner.js",
+    "test-debug": "./node_modules/node-inspector/bin/node-debug.js --web-port=5859 ./node_modules/.bin/jasmine"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,11 @@
   "homepage": "https://github.com/sqren/list-npm-modules#readme",
   "dependencies": {
     "lodash.defaults": "^3.1.2",
-    "lodash.isfunction": "^3.0.6"
+    "lodash.isfunction": "^3.0.6",
+    "request": "^2.67.0"
+  },
+  "devDependencies": {
+    "jasmine": "^2.4.1",
+    "jasmine-spec-reporter": "^2.4.0"
   }
 }
