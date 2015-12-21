@@ -1,6 +1,6 @@
 {
   "name": "npm-keys",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "List the package names for every module in the npm registry",
   "main": "index.js",
   "scripts": {
