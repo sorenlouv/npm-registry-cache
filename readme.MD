@@ -1,33 +1,24 @@
-# list-npm-modules
-List all packages from npm registry. A cached copy of the npm registry will be stored. It is possible to configure the expiry time.
+# npm-keys
+List all packages from npm registry. A cached copy of the npm registry will be stored. It is possible to configure how long it should be valid, until a fresh version should be retrived.
 
 ## Installation
 ```
-npm install list-npm-modules --save
+npm install npm-keys --save
 ```
 
 ## Usage
 
 ```js
-listNpmModules([options], callback);
+var npmKeys = new NpmKeys([ttl]);
 ```
- - `options` (_Object_)
-    - `forceUpdate` (_Boolean_) Bypass cache and download from registry
-    - `validity` (_Integer_) Milliseconds before cache is stale
+
+ - `ttl` (_Integer_) Number of milliseconds until the cache should be rebuild
 
 **Example**
-```
-var listNpmModules = require('list-npm-modules');
+```js
+var NpmKeys = require('npm-keys');
+var npmKeys = new NpmKeys();
 
-listNpmModules(function (result) {
-    console.log(result.length); // 229680 and counting
-});
-```
-**Example: Expire cache after 1 hour**
-```
-var listNpmModules = require('list-npm-modules');
-
-listNpmModules({validity: 3600 * 1000}, function (result) {
-    console.log(result.length);
-});
+var results = npmKeys.get();
+console.log(results.length);
 ```
