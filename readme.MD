@@ -1,9 +1,9 @@
-# npm-keys
+# npm-registry-cache
 List all packages from npm registry. A cached copy of the npm registry will be stored. It is possible to configure how long it should be valid, until a fresh version should be retrived.
 
 ## Installation
 ```
-npm install npm-keys --save
+npm install npm-registry-cache --save
 ```
 
 ## Usage
