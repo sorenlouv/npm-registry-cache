@@ -1,0 +1,417 @@
+{
+	"q": {
+		"name": "q",
+		"version": "1.4.1",
+		"description": "A library for promises (CommonJS/Promises/A,B,D)",
+		"homepage": "https://github.com/kriskowal/q",
+		"author": {
+			"name": "Kris Kowal",
+			"email": "kris@cixar.com",
+			"url": "https://github.com/kriskowal"
+		},
+		"keywords": ["q", "promise", "promises", "promises-a", "promises-aplus", "deferred", "future", "async", "flow control", "fluent", "browser", "node"],
+		"contributors": [{
+			"name": "Kris Kowal",
+			"email": "kris@cixar.com",
+			"url": "https://github.com/kriskowal"
+		}, {
+			"name": "Irakli Gozalishvili",
+			"email": "rfobic@gmail.com",
+			"url": "http://jeditoolkit.com"
+		}, {
+			"name": "Domenic Denicola",
+			"email": "domenic@domenicdenicola.com",
+			"url": "http://domenicdenicola.com"
+		}],
+		"bugs": {
+			"url": "http://github.com/kriskowal/q/issues"
+		},
+		"license": {
+			"type": "MIT",
+			"url": "http://github.com/kriskowal/q/raw/master/LICENSE"
+		},
+		"main": "q.js",
+		"files": ["LICENSE", "q.js", "queue.js"],
+		"repository": {
+			"type": "git",
+			"url": "git://github.com/kriskowal/q.git"
+		},
+		"engines": {
+			"node": ">=0.6.0",
+			"teleport": ">=0.2.0"
+		},
+		"dependencies": {},
+		"devDependencies": {
+			"cover": "*",
+			"grunt": "~0.4.1",
+			"grunt-cli": "~0.1.9",
+			"grunt-contrib-uglify": "~0.9.1",
+			"jasmine-node": "1.11.0",
+			"jshint": "~2.1.9",
+			"matcha": "~0.2.0",
+			"opener": "*",
+			"promises-aplus-tests": "1.x"
+		},
+		"scripts": {
+			"test": "jasmine-node spec && promises-aplus-tests spec/aplus-adapter",
+			"test-browser": "opener spec/q-spec.html",
+			"benchmark": "matcha",
+			"lint": "jshint q.js",
+			"cover": "cover run jasmine-node spec && cover report html && opener cover_html/index.html",
+			"minify": "grunt",
+			"prepublish": "grunt"
+		},
+		"overlay": {
+			"teleport": {
+				"dependencies": {
+					"system": ">=0.0.4"
+				}
+			}
+		},
+		"directories": {
+			"test": "./spec"
+		},
+		"gitHead": "d373079d3620152e3d60e82f27265a09ee0e81bd",
+		"_id": "q@1.4.1",
+		"_shasum": "55705bcd93c5f3673530c2c2cbc0c2b3addc286e",
+		"_from": ".",
+		"_npmVersion": "2.8.3",
+		"_nodeVersion": "1.8.1",
+		"_npmUser": {
+			"name": "kriskowal",
+			"email": "kris.kowal@cixar.com"
+		},
+		"maintainers": [{
+			"name": "kriskowal",
+			"email": "kris.kowal@cixar.com"
+		}, {
+			"name": "domenic",
+			"email": "domenic@domenicdenicola.com"
+		}],
+		"dist": {
+			"shasum": "55705bcd93c5f3673530c2c2cbc0c2b3addc286e",
+			"tarball": "http://registry.npmjs.org/q/-/q-1.4.1.tgz"
+		}
+	},
+	"lodash": {
+		"name": "lodash",
+		"version": "3.10.1",
+		"description": "The modern build of lodash modular utilities.",
+		"homepage": "https://lodash.com/",
+		"icon": "https://lodash.com/icon.svg",
+		"license": "MIT",
+		"main": "index.js",
+		"keywords": ["modules", "stdlib", "util"],
+		"author": {
+			"name": "John-David Dalton",
+			"email": "john.david.dalton@gmail.com",
+			"url": "http://allyoucanleet.com/"
+		},
+		"contributors": [{
+			"name": "John-David Dalton",
+			"email": "john.david.dalton@gmail.com",
+			"url": "http://allyoucanleet.com/"
+		}, {
+			"name": "Benjamin Tan",
+			"email": "demoneaux@gmail.com",
+			"url": "https://d10.github.io/"
+		}, {
+			"name": "Blaine Bublitz",
+			"email": "blaine@iceddev.com",
+			"url": "http://www.iceddev.com/"
+		}, {
+			"name": "Kit Cambridge",
+			"email": "github@kitcambridge.be",
+			"url": "http://kitcambridge.be/"
+		}, {
+			"name": "Mathias Bynens",
+			"email": "mathias@qiwi.be",
+			"url": "https://mathiasbynens.be/"
+		}],
+		"repository": {
+			"type": "git",
+			"url": "git+https://github.com/lodash/lodash.git"
+		},
+		"scripts": {
+			"test": "echo \"See https://travis-ci.org/lodash/lodash-cli for testing details.\""
+		},
+		"bugs": {
+			"url": "https://github.com/lodash/lodash/issues"
+		},
+		"_id": "lodash@3.10.1",
+		"_shasum": "5bf45e8e49ba4189e17d482789dfd15bd140b7b6",
+		"_from": ".",
+		"_npmVersion": "2.13.1",
+		"_nodeVersion": "0.12.5",
+		"_npmUser": {
+			"name": "jdalton",
+			"email": "john.david.dalton@gmail.com"
+		},
+		"maintainers": [{
+			"name": "jdalton",
+			"email": "john.david.dalton@gmail.com"
+		}, {
+			"name": "mathias",
+			"email": "mathias@qiwi.be"
+		}, {
+			"name": "phated",
+			"email": "blaine@iceddev.com"
+		}, {
+			"name": "kitcambridge",
+			"email": "github@kitcambridge.be"
+		}, {
+			"name": "d10",
+			"email": "demoneaux@gmail.com"
+		}],
+		"dist": {
+			"shasum": "5bf45e8e49ba4189e17d482789dfd15bd140b7b6",
+			"tarball": "http://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz"
+		},
+		"directories": {}
+	},
+	"request": {
+		"name": "request",
+		"description": "Simplified HTTP request client.",
+		"tags": ["http", "simple", "util", "utility"],
+		"version": "2.67.0",
+		"author": {
+			"name": "Mikeal Rogers",
+			"email": "mikeal.rogers@gmail.com"
+		},
+		"repository": {
+			"type": "git",
+			"url": "git+https://github.com/request/request.git"
+		},
+		"bugs": {
+			"url": "http://github.com/request/request/issues"
+		},
+		"license": "Apache-2.0",
+		"engines": {
+			"node": ">=0.8.0"
+		},
+		"main": "index.js",
+		"dependencies": {
+			"bl": "~1.0.0",
+			"caseless": "~0.11.0",
+			"extend": "~3.0.0",
+			"forever-agent": "~0.6.1",
+			"form-data": "~1.0.0-rc3",
+			"json-stringify-safe": "~5.0.1",
+			"mime-types": "~2.1.7",
+			"node-uuid": "~1.4.7",
+			"qs": "~5.2.0",
+			"tunnel-agent": "~0.4.1",
+			"tough-cookie": "~2.2.0",
+			"http-signature": "~1.1.0",
+			"oauth-sign": "~0.8.0",
+			"hawk": "~3.1.0",
+			"aws-sign2": "~0.6.0",
+			"stringstream": "~0.0.4",
+			"combined-stream": "~1.0.5",
+			"isstream": "~0.1.2",
+			"is-typedarray": "~1.0.0",
+			"har-validator": "~2.0.2"
+		},
+		"scripts": {
+			"test": "npm run lint && npm run test-ci && npm run test-browser",
+			"test-ci": "taper tests/test-*.js",
+			"test-cov": "istanbul cover tape tests/test-*.js",
+			"test-browser": "node tests/browser/start.js",
+			"lint": "eslint lib/ *.js tests/ && echo Lint passed."
+		},
+		"devDependencies": {
+			"browserify-istanbul": "^0.1.5",
+			"browserify": "^12.0.1",
+			"buffer-equal": "^0.0.1",
+			"codecov.io": "^0.1.6",
+			"coveralls": "^2.11.4",
+			"eslint": "1.9.0",
+			"function-bind": "^1.0.2",
+			"istanbul": "^0.4.0",
+			"karma-browserify": "^4.4.0",
+			"karma": "^0.13.10",
+			"karma-cli": "^0.1.1",
+			"karma-coverage": "^0.5.3",
+			"karma-phantomjs-launcher": "^0.1.4",
+			"karma-tap": "^1.0.3",
+			"rimraf": "^2.2.8",
+			"server-destroy": "^1.0.1",
+			"tape": "^4.2.0",
+			"taper": "^0.4.0",
+			"bluebird": "^3.0.2"
+		},
+		"gitHead": "76f0655befbe8b37fa246bdca1107cbf57798d9a",
+		"homepage": "https://github.com/request/request#readme",
+		"_id": "request@2.67.0",
+		"_shasum": "8af74780e2bf11ea0ae9aa965c11f11afd272742",
+		"_from": ".",
+		"_npmVersion": "3.3.12",
+		"_nodeVersion": "5.0.0",
+		"_npmUser": {
+			"name": "simov",
+			"email": "simeonvelichkov@gmail.com"
+		},
+		"dist": {
+			"shasum": "8af74780e2bf11ea0ae9aa965c11f11afd272742",
+			"tarball": "http://registry.npmjs.org/request/-/request-2.67.0.tgz"
+		},
+		"maintainers": [{
+			"name": "mikeal",
+			"email": "mikeal.rogers@gmail.com"
+		}, {
+			"name": "nylen",
+			"email": "jnylen@gmail.com"
+		}, {
+			"name": "fredkschott",
+			"email": "fkschott@gmail.com"
+		}, {
+			"name": "simov",
+			"email": "simeonvelichkov@gmail.com"
+		}],
+		"directories": {}
+	},
+	"jquery": {
+		"name": "jquery",
+		"title": "jQuery",
+		"description": "JavaScript library for DOM operations",
+		"version": "2.1.4",
+		"main": "dist/jquery.js",
+		"homepage": "http://jquery.com",
+		"author": {
+			"name": "jQuery Foundation and other contributors",
+			"url": "https://github.com/jquery/jquery/blob/2.1.4/AUTHORS.txt"
+		},
+		"repository": {
+			"type": "git",
+			"url": "https://github.com/jquery/jquery.git"
+		},
+		"keywords": ["jquery", "javascript", "browser", "library"],
+		"bugs": {
+			"url": "http://bugs.jquery.com"
+		},
+		"licenses": [{
+			"type": "MIT",
+			"url": "https://github.com/jquery/jquery/blob/2.1.4/MIT-LICENSE.txt"
+		}],
+		"dependencies": {},
+		"devDependencies": {
+			"commitplease": "2.0.0",
+			"grunt": "0.4.2",
+			"grunt-bowercopy": "0.7.1",
+			"grunt-cli": "0.1.13",
+			"grunt-compare-size": "0.4.0",
+			"grunt-contrib-jshint": "0.8.0",
+			"grunt-contrib-uglify": "0.3.2",
+			"grunt-contrib-watch": "0.5.3",
+			"grunt-git-authors": "1.2.0",
+			"grunt-jscs-checker": "0.4.1",
+			"grunt-jsonlint": "1.0.4",
+			"gzip-js": "0.3.2",
+			"jsdom": "1.5.0",
+			"load-grunt-tasks": "0.3.0",
+			"requirejs": "2.1.10",
+			"testswarm": "1.1.0"
+		},
+		"scripts": {
+			"build": "npm install && grunt",
+			"start": "grunt watch",
+			"test": "grunt"
+		},
+		"gitHead": "7751e69b615c6eca6f783a81e292a55725af6b85",
+		"_id": "jquery@2.1.4",
+		"_shasum": "228bde698a0c61431dc2630a6a154f15890d2317",
+		"_from": ".",
+		"_npmVersion": "2.7.4",
+		"_nodeVersion": "0.12.2",
+		"_npmUser": {
+			"name": "timmywil",
+			"email": "timmywillisn@gmail.com"
+		},
+		"maintainers": [{
+			"name": "dmethvin",
+			"email": "dave.methvin@gmail.com"
+		}, {
+			"name": "scott.gonzalez",
+			"email": "scott.gonzalez@gmail.com"
+		}, {
+			"name": "m_gol",
+			"email": "m.goleb@gmail.com"
+		}, {
+			"name": "timmywil",
+			"email": "timmywillisn@gmail.com"
+		}],
+		"dist": {
+			"shasum": "228bde698a0c61431dc2630a6a154f15890d2317",
+			"tarball": "http://registry.npmjs.org/jquery/-/jquery-2.1.4.tgz"
+		},
+		"directories": {}
+	},
+	"phantomjs": {
+		"name": "phantomjs",
+		"version": "1.9.19",
+		"keywords": ["phantomjs", "headless", "webkit"],
+		"description": "Headless WebKit with JS API",
+		"homepage": "https://github.com/Medium/phantomjs",
+		"repository": {
+			"type": "git",
+			"url": "git://github.com/Medium/phantomjs.git"
+		},
+		"license": "Apache-2.0",
+		"author": {
+			"name": "Dan Pupius",
+			"email": "dan@obvious.com",
+			"url": "http://pupius.co.uk"
+		},
+		"maintainers": [{
+			"name": "dpup",
+			"email": "dan@pupi.us"
+		}, {
+			"name": "nicks",
+			"email": "nicholas.j.santos@gmail.com"
+		}, {
+			"name": "medium",
+			"email": "npm@medium.com"
+		}],
+		"main": "lib/phantomjs",
+		"bin": {
+			"phantomjs": "./bin/phantomjs"
+		},
+		"scripts": {
+			"install": "node install.js",
+			"test": "nodeunit --reporter=minimal test/tests.js && eslint install.js"
+		},
+		"dependencies": {
+			"adm-zip": "0.4.4",
+			"fs-extra": "~0.23.1",
+			"kew": "0.4.0",
+			"md5": "~2.0.0",
+			"npmconf": "2.1.1",
+			"progress": "1.1.8",
+			"request": "2.42.0",
+			"request-progress": "0.3.1",
+			"which": "~1.0.5"
+		},
+		"devDependencies": {
+			"eslint": "1.5.1",
+			"nodeunit": "0.9.0"
+		},
+		"gitHead": "3ad7dad059c7b51acda95af3b8c2869253712bc4",
+		"bugs": {
+			"url": "https://github.com/Medium/phantomjs/issues"
+		},
+		"_id": "phantomjs@1.9.19",
+		"_shasum": "a7f2cef5eba7343e1a729ce9922a95a6d0a11c07",
+		"_from": ".",
+		"_npmVersion": "2.14.4",
+		"_nodeVersion": "4.1.2",
+		"_npmUser": {
+			"name": "nicks",
+			"email": "nicholas.j.santos@gmail.com"
+		},
+		"dist": {
+			"shasum": "a7f2cef5eba7343e1a729ce9922a95a6d0a11c07",
+			"tarball": "http://registry.npmjs.org/phantomjs/-/phantomjs-1.9.19.tgz"
+		},
+		"directories": {}
+	}
+}

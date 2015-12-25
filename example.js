@@ -1,5 +1,5 @@
-var NpmModules = require('./index');
-var npmModules = new NpmModules();
+var RegistryCache = require('./index');
+var registry = new RegistryCache();
 
-var results = npmModules.get();
+var results = registry.get();
 console.log(results.length);

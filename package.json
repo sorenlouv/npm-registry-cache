@@ -1,7 +1,7 @@
 {
-  "name": "npm-keys",
-  "version": "0.9.1",
-  "description": "List the package names for every module in the npm registry",
+  "name": "npm-registry-cache",
+  "version": "0.5.0",
+  "description": "No fuzz cache of the entire npm registry. Choose which fields to cache per package, and how often the cache should be rebuilt.",
   "main": "index.js",
   "scripts": {
     "test": "node spec/jasmine-runner.js",
@@ -9,14 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sqren/list-npm-modules.git"
+    "url": "git+https://github.com/sqren/npm-registry-cache.git"
   },
   "keywords": [
     "npm",
+    "registry",
     "list",
-    "key",
-    "keys",
-    "titles",
     "modules",
     "cache",
     "persistent",
@@ -26,10 +24,11 @@
   "author": "Søren Louv-Jansen",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sqren/list-npm-modules/issues"
+    "url": "https://github.com/sqren/npm-registry-cache/issues"
   },
-  "homepage": "https://github.com/sqren/list-npm-modules#readme",
+  "homepage": "https://github.com/sqren/npm-registry-cache#readme",
   "dependencies": {
+    "lodash": "^3.10.1",
     "request": "^2.67.0"
   },
   "devDependencies": {

@@ -1,21 +1,25 @@
-var CACHE_FILENAME = './cache.json';
+var path = require('path');
 var fs = require('fs');
 var request = require('request');
+var _ = require('lodash');
+var CACHE_FILENAME = path.resolve(__dirname, 'cache.json');
 
-function npmModules(ttl){
-    ttl = ttl || 1000 * 3600 * 24;
+function RegistryCache(options){
+    this.options = _.defaults(options || {}, {
+        ttl: 1000 * 3600 * 24
+    });
     this.cacheFileContent = this._readCacheFile();
-    var isStale = this._isStale(this.cacheFileContent.timestamp, ttl);
+    var isStale = this._isStale(this.cacheFileContent.timestamp, this.options.ttl);
     if(isStale) {
         this._update();
     }
 
-    if(ttl > 0) {
-        setInterval(this._update, ttl);
+    if(this.options.ttl > 0) {
+        setInterval(this._update, this.options.ttl);
     }
 }
 
-npmModules.prototype._update = function () {
+RegistryCache.prototype._update = function () {
     var _this = this;
     var requestOptions = {
         url: 'http://registry.npmjs.org/-/all',
@@ -27,19 +31,19 @@ npmModules.prototype._update = function () {
     };
 
     function requestHandler(err, res, responseBody) {
-        var keys, etag;
+        var items, etag;
         if (err) {
-            console.error('Could not load npm modules', err);
+            console.error('Could not load npm registry', err);
             return;
         }
         switch(res.statusCode) {
             case 200:
-                keys = Object.keys(responseBody);
+                items = _this.getFields(responseBody);
                 etag = res.headers.etag;
-                _this._persistCache(keys, etag);
+                _this._writeCacheFile(items, etag);
                 break;
             case 304:
-                _this._persistCacheTimestamp();
+                _this._writeCacheFileTimestamp();
                 break;
             default:
                 console.error('Unexpected status code', res.statusCode);
@@ -49,30 +53,47 @@ npmModules.prototype._update = function () {
     request.get(requestOptions, requestHandler);
 };
 
-npmModules.prototype.get = function() {
-    return this.cacheFileContent.keys;
+RegistryCache.prototype.getFields = function (items) {
+    var fields = this.options.fields;
+    if(_.isFunction(fields)){
+        return _.values(items).map(fields);
+    } else if(_.isArray(fields)){
+        return _.values(items).map(function (item) {
+            return _.pick(item, fields);
+        });
+    } else {
+        return Object.keys(items);
+    }
 };
 
-npmModules.prototype.forceUpdate = function() {
+RegistryCache.prototype.get = function() {
+    if (!this.cacheFileContent.items) {
+        console.warn('The cache is being rebuilt for the very first time. This might take a couple of minutes. Please be patient.');
+        return [];
+    }
+    return this.cacheFileContent.items;
+};
+
+RegistryCache.prototype.forceUpdate = function() {
     return this._update();
 };
 
-npmModules.prototype._isStale = function (cacheTimestamp, validity) {
+RegistryCache.prototype._isStale = function (cacheTimestamp, validity) {
     var expiryDate = (cacheTimestamp || 0) + validity;
     var isStale = Date.now() > expiryDate;
     return isStale;
 };
 
-npmModules.prototype._persistCacheTimestamp = function() {
-    this._persistCache(this.cacheFileContent.keys, this.cacheFileContent.etag);
+RegistryCache.prototype._writeCacheFileTimestamp = function() {
+    this._writeCacheFile(this.cacheFileContent.items, this.cacheFileContent.etag);
 };
 
-npmModules.prototype._persistCache = function(keys, etag) {
+RegistryCache.prototype._writeCacheFile = function(items, etag) {
     var filename = CACHE_FILENAME;
     var fileContent = {
         timestamp: Date.now(),
         etag: etag,
-        keys: keys
+        items: items
     };
     fs.writeFile(filename, JSON.stringify(fileContent), function(err) {
         if (err) {
@@ -84,7 +105,7 @@ npmModules.prototype._persistCache = function(keys, etag) {
     });
 };
 
-npmModules.prototype._readCacheFile = function() {
+RegistryCache.prototype._readCacheFile = function() {
     try {
         return JSON.parse(fs.readFileSync(CACHE_FILENAME, 'utf8'));
     } catch (e) {
@@ -92,5 +113,5 @@ npmModules.prototype._readCacheFile = function() {
     }
 };
 
-module.exports = npmModules;
+module.exports = RegistryCache;
 

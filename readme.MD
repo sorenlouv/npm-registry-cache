@@ -9,16 +9,30 @@ npm install npm-keys --save
 ## Usage
 
 ```js
-var npmKeys = new NpmKeys([ttl]);
+var registry = new RegistryCache([options]);
 ```
 
- - `ttl` (_Integer_) Number of milliseconds until the cache should be rebuild
+ - `options` (_Object_)
+ 	- `ttl` (_Integer_) Number of milliseconds until the cache should be rebuild. Default: 24 hours
+ 	- `fields` (_Array_ or _Function_) List of the package fields to cache, eg title, description, author. Defaults: "key"
 
-**Example**
+**Simple Example**
 ```js
-var NpmKeys = require('npm-keys');
-var npmKeys = new NpmKeys();
+var RegistryCache = require('registry-cache');
+var registry = new RegistryCache();
 
-var results = npmKeys.get();
+var results = registry.get();
+console.log(results.length);
+```
+
+**Example with fields and ttl**
+```js
+var RegistryCache = require('registry-cache');
+var registry = new RegistryCache({
+	ttl: 1000*3600*24*7,
+	fields: ['name', 'version', 'homepage']
+});
+
+var results = registry.get();
 console.log(results.length);
 ```
