@@ -1,5 +1,5 @@
 # npm-registry-cache
-List all packages from npm registry. A cached copy of the npm registry will be stored. It is possible to configure how long it should be valid, until a fresh version should be retrived.
+Simple cache of the entire npm registry. Choose which fields per package to cache (eg. name and author), and how often the cache should be rebuilt.
 
 ## Installation
 ```

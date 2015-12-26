@@ -1,7 +1,7 @@
 {
   "name": "npm-registry-cache",
   "version": "0.5.1",
-  "description": "No fuzz cache of the entire npm registry. Choose which fields to cache per package, and how often the cache should be rebuilt.",
+  "description": "Simple cache of the entire npm registry. Choose which fields per package to cache (eg. name and author), and how often the cache should be rebuilt.",
   "main": "index.js",
   "scripts": {
     "test": "node spec/jasmine-runner.js",
