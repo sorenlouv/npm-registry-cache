@@ -14,7 +14,7 @@ var registry = new RegistryCache([options]);
 
  - `options` (_Object_)
  	- `ttl` (_Integer_) Number of milliseconds until the cache should be rebuild. Default: 24 hours
- 	- `fields` (_Array_ or _Function_) List of the package fields to cache, eg title, description, author. Defaults: "key"
+ 	- `fields` (_Array_ or _Function_) List of the package fields to cache, eg title, description, author. Defaults: "name"
 
 **Simple Example**
 ```js
