@@ -25,7 +25,7 @@ RegistryCache.prototype._getFilename = function () {
     var SUBFOLDER_NAME = 'caches';
     try {
         var filename = crypto.createHash('md5').update(this.options.fields.toString()).digest('hex');
-        return path.resolve(__dirname, SUBFOLDER_NAME, filename, '.json');
+        return path.resolve(__dirname, SUBFOLDER_NAME, filename + '.json');
     } catch(e) {
         console.warn('Could not get filename', e);
         throw e;

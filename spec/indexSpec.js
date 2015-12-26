@@ -117,7 +117,7 @@ describe('when cache is stale', function () {
 
 				it('should update cache file', function () {
 					expect(fs.writeFile).toHaveBeenCalledWith(
-						jasmine.stringMatching(/caches\/(.*)\.json$/),
+						jasmine.stringMatching(/caches\/[a-f0-9]{32}\.json$/),
 						jasmine.any(String),
 						jasmine.any(Function)
 					);
