@@ -18,7 +18,7 @@ var registry = new RegistryCache([options]);
 
 **Simple Example**
 ```js
-var RegistryCache = require('registry-cache');
+var RegistryCache = require('npm-registry-cache');
 var registry = new RegistryCache();
 
 var results = registry.get();
@@ -27,7 +27,7 @@ console.log(results.length);
 
 **Example with fields and ttl**
 ```js
-var RegistryCache = require('registry-cache');
+var RegistryCache = require('npm-registry-cache');
 var registry = new RegistryCache({
 	ttl: 1000*3600*24*7,
 	fields: ['name', 'version', 'homepage']
